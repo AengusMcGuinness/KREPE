@@ -18,13 +18,14 @@ import sys
 def main():
     data = []
     kmer_length=input("Enter Kmer Lengths: ")
-    file_path=input("File path (FASTA FORMAT): ")
-    cmd = grep -v '[^[:alpha:]]' f'{file_path}'
+    fasta_path=input("File path (FASTA FORMAT): ")
+    txt_path = file_path
+    wrong_extension='.fasta'
+    for character in wrong_extension:
+        txt_path=txt_path.replace(character, "")
+    cmd = f"grep -v '[^[:alpha:]]' {file_path} > {txt_path}.txt" 
     os.system(cmd)
-    with open(f'{file_path}', 'r') as fasta:
-        for f in fasta:
-            lines=fasta.readline()
-            data.append(lines)
+    txt_file= open(f'{txt_path}.txt', 'r')
     
         
     #now the counting begins
