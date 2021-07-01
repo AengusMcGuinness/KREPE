@@ -16,18 +16,29 @@ import sys
 #Working on bloom filter class
 
 def main():
-    data = []
-    kmer_length=input("Enter Kmer Lengths: ")
+    temporary_data_structure={}
+    kmer_length=int(input("Enter Kmer Lengths: "))
     fasta_path=input("File path (FASTA FORMAT): ")
-    txt_path = file_path
+    txt_path = fasta_path
     wrong_extension='.fasta'
     for character in wrong_extension:
         txt_path=txt_path.replace(character, "")
-    cmd = f"grep -v '[^[:alpha:]]' {file_path} > {txt_path}.txt" 
+    cmd = f"grep -v '[^[:alpha:]]' {fasta_path} > {txt_path}.txt" 
     os.system(cmd)
-    txt_file= open(f'{txt_path}.txt', 'r')
+    with open(f'{txt_path}.txt', 'r') as file:
+        txt_file = file.read().replace('\n', '')
+        #print(txt_file)
+        character_count=len(txt_file)-int(kmer_length)
+        for i in range(character_count):
+            kmers= txt_file[i:(i + kmer_length)]
+            data_entry={str(hash(kmers)):str(kmers)}
+            temporary_data_structure.update(data_entry)
+        file.close()
+    print(temporary_data_structure)
     
-        
+
+
+#txt_file= str(open(f'{txt_path}.txt', 'w'))
     #now the counting begins
     #blomfilter = BloomFilter()
 
