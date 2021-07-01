@@ -1,21 +1,24 @@
 from Bio.Seq import Seq
 import numpy as np
 import os
+import random
 import matplotlib.pyplot as plt
 import math
 import pandas as pd
 import struct
 import mmh3 
-from bitarray import bitarray
+import bitarray
 import sys
-
 #These are packages I think we might need so I am just putting them at the top
 
 '''-----------------------------Work in Progress---------------------------------------------'''
 
 #Working on bloom filter class
-
+random.seed(1)
 def main():
+    incrementer={}
+    kmer_list=[]
+    number_of_kmers=0
     temporary_data_structure={}
     kmer_length=int(input("Enter Kmer Lengths: "))
     fasta_path=input("File path (FASTA FORMAT): ")
@@ -30,108 +33,42 @@ def main():
         #print(txt_file)
         character_count=len(txt_file)-int(kmer_length)
         for i in range(character_count):
+            number_of_kmers=number_of_kmers + 1
             kmers= txt_file[i:(i + kmer_length)]
-            data_entry={str(hash(kmers)):str(kmers)}
+            #data_entry={str(hash(kmers)):str(kmers)}
+            kmer_list.append(kmers)
             temporary_data_structure.update(data_entry)
         file.close()
+    fp = float(input("Enter a false probability as a decimal: "))
     print(temporary_data_structure)
-    
 
 
-#txt_file= str(open(f'{txt_path}.txt', 'w'))
-    #now the counting begins
-    #blomfilter = BloomFilter()
 
-# Currently trying to understand this. Found this from a tutorial
-
-# class BloomFilter():
-
-#     '''
-#     Class for Bloom filter, using murmur3 hash function
-#     '''
-#     def __init__(self, items_count, fp_prob):
-#         '''
-#         items_count : int
-#             Number of items expected to be stored in bloom filter
-#         fp_prob : float
-#             False Positive probability in decimal
-#         '''
-#         # False possible probability in decimal
-#         self.fp_prob = fp_prob
-
-#         # Size of bit array to use
-#         self.size = self.get_size(items_count, fp_prob)
-
-#         # number of hash functions to use
-#         self.hash_count = self.get_hash_count(self.size, items_count)
-
-#         # Bit array of given size
-#         self.bit_array = bitarray(self.size)
-
-#         # initialize all bits as 0
-#         self.bit_array.setall(0)
-        
-
-#     def add(self, item):
-#         '''
-#         Add an item in the filter
-#         '''
-#         digests = []
-#         for i in range(self.hash_count):
-
-#             # create digest for given item.
-#             # i work as seed to mmh3.hash() function
-#             # With different seed, digest created is different
-#             digest = mmh3.hash(item, i) % self.size
-#             digests.append(digest)
-
-#             # set the bit True in bit_array
-#             self.bit_array[digest] = True
-
-#     def check(self, item):
-#         '''
-#         Check for existence of an item in filter
-#         '''
-#         for i in range(self.hash_count):
-#             digest = mmh3.hash(item, i) % self.size
-#             if self.bit_array[digest] == False:
-
-#                 # if any of bit is False then,its not present
-#                 # in filter
-#                 # else there is probability that it exist
-#                 return False
-#         return True
-
-#     @classmethod
-#     def get_size(self, n, p):
-#         '''
-#         Return the size of bit array(m) to used using
-#         following formula
-#         m = -(n * lg(p)) / (lg(2)^2)
-#         n : int
-#             number of items expected to be stored in filter
-#         p : float
-#             False Positive probability in decimal
-#         '''
-#         m = -(n * math.log(p))/(math.log(2)**2)
-#         return int(m)
-
-#     @classmethod
-#     def get_hash_count(self, m, n):
-#         '''
-#         Return the hash function(k) to be used using
-#         following formula
-#         k = (m/n) * lg(2)
-
-#         m : int
-#             size of bit array
-#         n : int
-#             number of items expected to be stored in filter
-#         '''
-#         k = (m/n) * math.log(2)
-#         return int(k)
+def bloomfilter():
+   # inserted_kmers=len(set(kmer_list))
+    total_bits=math.ceil(number_of_kmers*(1.44*(math.log(fp, 2))))
+    bloomeyfilter = bitarray(total_bits)
+    bloomeyfilter.setall(0)
+    number_of_hash=(total_bits / number_of_kmers) * np.log(2)
+    #Not yet applicable
+    #bloomfilter = BloomFilter(number_of_kmers, fp)
 
 
+def hashing(kmer_list, number_of_hash):
+    for i in (kmer_list):
+       # mmh3.hash(kmer_list[i], random.randint(0, number_of_hash))
+        hash_key=int(mmh3.hash(kmer_list[i]))
+        f'{hash_key}incrementer' = 0
+        if bloomeyfilter[hash_key::(hash_key + 1)] == bitarray('0'):
+            del bloomeyfilter[hash_key::(hash_key + 1)]
+            bitarray('1') = bloomeyfilter[hash_key::(hash_key + 1)]
+        else:
+            f'{hash_key}incrementer' += 1 
+
+
+# #txt_file= str(open(f'{txt_path}.txt', 'w'))
+#     #now the counting begins
+#     #blomfilter = BloomFilter()
 
 
 # '''
