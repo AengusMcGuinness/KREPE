@@ -7,7 +7,7 @@ import math
 import pandas as pd
 import struct
 import mmh3 
-import bitarray
+from bitarray import bitarray
 import sys
 #These are packages I think we might need so I am just putting them at the top
 
@@ -16,9 +16,8 @@ import sys
 #Working on bloom filter class
 random.seed(1)
 def main():
-    incrementer={}
     kmer_list=[]
-    number_of_kmers=0
+    number_of_kmers = 0
     temporary_data_structure={}
     kmer_length=int(input("Enter Kmer Lengths: "))
     fasta_path=input("File path (FASTA FORMAT): ")
@@ -37,34 +36,50 @@ def main():
             kmers= txt_file[i:(i + kmer_length)]
             #data_entry={str(hash(kmers)):str(kmers)}
             kmer_list.append(kmers)
-            temporary_data_structure.update(data_entry)
+   #         temporary_data_structure.update(data_entry)
         file.close()
     fp = float(input("Enter a false probability as a decimal: "))
-    print(temporary_data_structure)
-
-
-
-def bloomfilter():
+  #  print(temporary_data_structure)
+    hash_funcs, bloomeyfilter = bloomfilter(number_of_kmers, fp)
+    #print(hash_funcs)
+    hashing(kmer_list, hash_funcs, bloomeyfilter, total_bits)
+    #print(kmer_counting_dictionary)
+    #print(number_of_kmers, total_bits, kmer_counting_dictionary)
+    #print(total_bits)
+    print(kmer_counting_dictionary)
+    
+def bloomfilter(number_of_kmers, fp):
    # inserted_kmers=len(set(kmer_list))
-    total_bits=math.ceil(number_of_kmers*(1.44*(math.log(fp, 2))))
+    global total_bits
+    total_bits=int(abs(math.ceil(number_of_kmers*(1.44*(math.log(fp, 2))))))
+    print(total_bits)
     bloomeyfilter = bitarray(total_bits)
     bloomeyfilter.setall(0)
-    number_of_hash=(total_bits / number_of_kmers) * np.log(2)
+    hash_funcs=math.ceil(total_bits / number_of_kmers) * np.log(2)
+    return hash_funcs, bloomeyfilter
     #Not yet applicable
     #bloomfilter = BloomFilter(number_of_kmers, fp)
 
 
-def hashing(kmer_list, number_of_hash):
-    for i in (kmer_list):
+def hashing(kmer_list, number_of_hash, bloomeyfilter, total_bits):
+    global kmer_counting_dictionary
+    kmer_counting_dictionary={}
+   # print(kmer_list)
+    for i in range(len(kmer_list)):
        # mmh3.hash(kmer_list[i], random.randint(0, number_of_hash))
-        hash_key=int(mmh3.hash(kmer_list[i]))
-        f'{hash_key}incrementer' = 0
-        if bloomeyfilter[hash_key::(hash_key + 1)] == bitarray('0'):
-            del bloomeyfilter[hash_key::(hash_key + 1)]
-            bitarray('1') = bloomeyfilter[hash_key::(hash_key + 1)]
+      #  hash_key=int((abs(mmh3.hash(kmer_list[(i)])))/10000)
+        random_hash=int(random.randint(0, total_bits))
+     #   print(total_bits)
+     #   print(hash_key)
+       # print(f'{kmer_list[i]}incrementer')
+        kmer_counting_dictionary.update({kmer_list[i]: 0})
+        if (bloomeyfilter[random_hash:(random_hash + 1)]) == bitarray('0'):
+           bloomeyfilter[random_hash:(random_hash + 1)] = bitarray('1')
+           # fill_one = bloomeyfilter[hash_key::(hash_key + 1)]
         else:
-            f'{hash_key}incrementer' += 1 
-
+           kmer_counting_dictionary[kmer_list[i]] += 1
+    print(bloomeyfilter)
+    return kmer_counting_dictionary
 
 # #txt_file= str(open(f'{txt_path}.txt', 'w'))
 #     #now the counting begins
