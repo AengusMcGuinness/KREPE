@@ -72,12 +72,15 @@ def hashing(kmer_list, number_of_hash, bloomeyfilter, total_bits):
      #   print(total_bits)
      #   print(hash_key)
        # print(f'{kmer_list[i]}incrementer')
+     #  kmer_counting_dictionary.update({kmer_list[i]: 0})
+        ##i think this is where the problem is..but what does this even do?
+        #doesn't it check if the bloom filter has seen the kmer and add if it hasn't?
         kmer_counting_dictionary.update({kmer_list[i]: 0})
         if (bloomeyfilter[random_hash:(random_hash + 1)]) == bitarray('0'):
            bloomeyfilter[random_hash:(random_hash + 1)] = bitarray('1')
            # fill_one = bloomeyfilter[hash_key::(hash_key + 1)]
         else:
-           kmer_counting_dictionary[kmer_list[i]] += 1
+            kmer_counting_dictionary[kmer_list[i]] += 1
     print(bloomeyfilter)
     return kmer_counting_dictionary
 

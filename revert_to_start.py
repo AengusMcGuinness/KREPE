@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+
 #from Bio.Seq import Seq
 import numpy as np
 import os
@@ -27,33 +29,61 @@ def main():
     wrong_extension='.fasta'
     for character in wrong_extension:
         txt_path=txt_path.replace(character, "")
-    cmd = f"grep -v '[^[:alpha:]]' {fasta_path} > {txt_path}.txt" 
+    cmd = f"grep -v 'length=' {fasta_path} > {txt_path}.txt" 
     os.system(cmd)
+
+    occurrence_dict = {}
     with open(f'{txt_path}.txt', 'r') as file:
+        os.system('date --iso=seconds')
         txt_file = file.read().replace('\n', '')
+        os.system('date --iso=seconds')
         character_count=len(txt_file)-int(kmer_length)
         for i in range(character_count):
             number_of_kmers=number_of_kmers + 1
             kmers= txt_file[i:(i + kmer_length)]
+            if not kmers in occurrence_dict:
+                occurrence_dict[kmers] = 1
+            else:
+                occurrence_dict[kmers] += 1
             kmer_list.append(kmers)
-    file.close()
-    hash_funcs, bloomeyfilter = bloomfilter(number_of_kmers, fp)
-    hashing(kmer_list, bloomeyfilter, total_bits)
-    #print(kmer_counting_dictionary)
-    #print(number_of_kmers, total_bits, kmer_counting_dictionary)
-    print(total_bits)
-    #print(hash_funcs)
-    print(kmer_counting_dictionary)
-    print(bloomeyfilter)
+        os.system('date --iso=seconds')
+    if len(occurrence_dict.keys()) < 100:
+        print(occurrence_dict)
+    else:
+        print('[very big occurrence dict]')
+    print(4**kmer_length, len(occurrence_dict.keys()))
+    # list_of_keys_with_more_than_one_occurrence = []
+    key_list = list(occurrence_dict.keys())
+    for key in key_list:
+        if occurrence_dict[key] < 2:
+            # list_of_keys_with_more_than_one_occurrence.append(key)
+            occurrence_dict.pop(key)
+    print('======================================================')
+    if len(occurrence_dict.keys()) < 100:
+        print(occurrence_dict)
+    else:
+        print('[very big occurrence dict]')
+    print(4**kmer_length, len(occurrence_dict.keys()))
+    # print(list_of_keys_with_more_than_one_occurrence)
+    # hash_funcs, bloomeyfilter, total_bits = bloomfilter(number_of_kmers, fp)
+    # print('h/t are:', hash_funcs, total_bits)
+    # os.system('date --iso=seconds')
+    # hashing(kmer_list, bloomeyfilter, total_bits)
+    # os.system('date --iso=seconds')
+    # #print(kmer_counting_dictionary)
+    # #print(number_of_kmers, total_bits, kmer_counting_dictionary)
+    # print(total_bits)
+    # #print(hash_funcs)
+    # print(kmer_counting_dictionary)
+    # # print(bloomeyfilter)
     
 def bloomfilter(number_of_kmers, fp):
     #inserted_kmers=len(set(kmer_list))
-    global total_bits
     total_bits=int(abs(math.ceil(number_of_kmers*(1.44*(math.log(fp, 2))))))
     bloomeyfilter = bitarray(total_bits)
     bloomeyfilter.setall(0)
     hash_funcs=math.ceil(total_bits / number_of_kmers) * np.log(2)
-    return hash_funcs, bloomeyfilter
+    return hash_funcs, bloomeyfilter, total_bits
 
 
 def hashing(kmer_list, bloomeyfilter, total_bits):
