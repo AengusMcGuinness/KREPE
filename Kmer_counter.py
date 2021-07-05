@@ -19,9 +19,10 @@ kmer_list=[]
 def main():
     number_of_kmers = 0
     txt_path = fasta_path
-    wrong_extension='.fasta'
-    for character in wrong_extension:
-        txt_path=txt_path.replace(character, "")
+  #  wrong_extension='.fasta'
+  #  for character in wrong_extension:
+  #      txt_path=txt_path.replace(character, "")
+    txt_path = txt_path.replace(txt_path[-6:], "")
     base_path=txt_path
     cmd = f"grep -v 'length=' {fasta_path} > {txt_path}.txt" 
     os.system(cmd)
