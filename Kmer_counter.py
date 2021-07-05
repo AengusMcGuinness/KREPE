@@ -57,6 +57,9 @@ def main():
         plotable_kmers = list(occurrence_dict.keys())
         frequency= values = list(occurrence_dict.values())
         plt.bar(range(len(occurrence_dict)), frequency, tick_label=plotable_kmers)
+        plt.xlabel('Kmers')
+        plt.ylabel('Frequency')
+        plt.title('Distribution of Kmers')
         plt.show()
     elif plot_or_not == 'not_plot':
         pass
