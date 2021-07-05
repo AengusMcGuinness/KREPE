@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 kmer_length=int(sys.argv[1])
 fasta_path=sys.argv[2]
 plot_or_not=sys.argv[3]
-de_brujin_arg=sys.argv[4]
+de_bruijn_arg=sys.argv[4]
 kmer_list=[]
 
 def main():
@@ -22,6 +22,7 @@ def main():
     wrong_extension='.fasta'
     for character in wrong_extension:
         txt_path=txt_path.replace(character, "")
+    base_path=txt_path
     cmd = f"grep -v 'length=' {fasta_path} > {txt_path}.txt" 
     os.system(cmd)
     print(f'{txt_path}')
@@ -67,12 +68,12 @@ def main():
         plt.show()
     elif plot_or_not == 'not_plot_distributiion':
         pass
-    if de_brujin_arg == 'plot_de_brujin':
+    if de_bruijn_arg == 'plot_de_bruijn':
         edges = get_debruijn_edges_from_kmers(occurrence_dict)
-        de_brujin_graph = plot_debruijn_graph(edges)
-        toyplot.png.render(de_brujin_graph[0], "debruijn_figure.png")
-        toyplot.browser.show(de_brujin_graph[0])
-    elif de_brujin_arg == 'not_plot_de_brujin':
+        de_bruijn_graph = plot_debruijn_graph(edges)
+        toyplot.png.render(de_bruijn_graph[0], f"debruijn_figure_{base_path}.png")
+        toyplot.browser.show(de_bruijn_graph[0])
+    elif de_bruijn_arg == 'not_plot_de_bruijn':
         pass
 
     
