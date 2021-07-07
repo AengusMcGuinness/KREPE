@@ -7,6 +7,7 @@ import sys
 import toyplot
 import toyplot.browser
 import toyplot.png
+import toyplot.pdf
 import matplotlib.pyplot as plt
 
 
@@ -62,7 +63,7 @@ def main():
     if plot_or_not == 'plot_distribution':
         plotable_kmers = list(occurrence_dict.keys())
         frequency= values = list(occurrence_dict.values())
-        plt.bar(range(len(occurrence_dict)), frequency, tick_label=plotable_kmers)
+        plt.bar(range(len(occurrence_dict)), frequency, )
         plt.xlabel('Kmers')
         plt.ylabel('Frequency')
         plt.title('Distribution of Kmers')
@@ -72,7 +73,7 @@ def main():
     if de_bruijn_arg == 'plot_de_bruijn':
         edges = get_debruijn_edges_from_kmers(occurrence_dict)
         de_bruijn_graph = plot_debruijn_graph(edges)
-        toyplot.png.render(de_bruijn_graph[0], f"debruijn_figure_{base_path}.png")
+        toyplot.pdf.render(de_bruijn_graph[0], f"debruijn_figure_{base_path}.pdf")
         toyplot.browser.show(de_bruijn_graph[0])
     elif de_bruijn_arg == 'not_plot_de_bruijn':
         pass
@@ -99,7 +100,7 @@ def get_debruijn_edges_from_kmers(kmers):
 
     return edges
 
-def plot_debruijn_graph(edges, width=800, height=800):
+def plot_debruijn_graph(edges, width=800, height=600):
     graph=toyplot.graph(
         [i[0] for i in edges],
         [i[1] for i in edges],
@@ -107,9 +108,9 @@ def plot_debruijn_graph(edges, width=800, height=800):
         height = height,
         tmarker=">",
         vsize=25,
-        vstyle={"stroke":"black", "stroke-width":1, "fill": "none"},
-        vlstyle={"font-size": "12px"},
-        estyle={"stroke": "black", "stroke-width":1},
+        vstyle={"stroke":"black", "stroke-width":2, "fill": "none"},
+        vlstyle={"font-size": "6px"},
+        estyle={"stroke": "black", "stroke-width":0.1},
         layout=toyplot.layout.FruchtermanReingold(edges=toyplot.layout.CurvedEdges()))
     return graph
 
@@ -117,4 +118,3 @@ def plot_debruijn_graph(edges, width=800, height=800):
 
 if __name__ == '__main__':
     main()
-
