@@ -12,22 +12,27 @@ import matplotlib.pyplot as plt
 
 
 kmer_length=int(sys.argv[1])
-fasta_path=sys.argv[2]
+path=sys.argv[2]
 plot_or_not=sys.argv[3]
 de_bruijn_arg=sys.argv[4]
+file_types=sys.argv[5]
 kmer_list=[]
 
 def main():
     number_of_kmers = 0
-    txt_path = fasta_path
-  #  wrong_extension='.fasta'
-  #  for character in wrong_extension:
-  #      txt_path=txt_path.replace(character, "")
-    txt_path = txt_path.replace(txt_path[-6:], "")
-    base_path=txt_path
-    cmd = f"grep -v 'length=' {fasta_path} > {txt_path}.txt" 
-    os.system(cmd)
-    print(f'{txt_path}')
+    txt_path = path
+    if file_types == '-fastq':
+        txt_path = txt_path.replace(txt_path[-6:], "")
+        cmd_fastq = f"sed -n '1~4s/^@/>/p;2~4p' {path} | grep -v 'length=' > {txt_path}.txt"
+        os.system(cmd_fastq)
+    if file_types == '-fna':
+        txt_path = txt_path.replace(txt_path[-4:], "")
+        cmd = f"grep -v 'length=' {path} > {txt_path}.txt" 
+        os.system(cmd)
+    elif file_types == '-fasta':
+        txt_path = txt_path.replace(txt_path[-6:], "")
+        cmd = f"grep -v 'length=' {path} > {txt_path}.txt" 
+        os.system(cmd)
     occurrence_dict = {}
     with open(f'{txt_path}.txt', 'r') as file:
         os.system('date --iso=seconds')
