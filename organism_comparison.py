@@ -37,7 +37,15 @@ def main():
         kmer_mash_file_1.add_kmer(i)
     for i in kmer_list_file_2:
         kmer_mash_file_2.add_kmer(i)
-    print(kmer_mash_file_1.jaccard(kmer_mash_file_2))
+    jaccard_index = kmer_mash_file_1.jaccard(kmer_mash_file_2)
+    genetic_distance = genetic_distance_calc(jaccard_index, kmer_length)
+    print(genetic_distance)
+
+def genetic_distance_calc(jaccard_index, kmer_length):
+    factor1 = -1/kmer_length
+    factor2 = math.log(2 * jaccard_index) / 1 + jaccard_index
+    genetic_distance = factor1 * factor2
+    return genetic_distance
     
 def file_creation(path):
     txt_path = path
@@ -47,11 +55,11 @@ def file_creation(path):
         os.system(cmd_fastq)
     if file_types == '-fna':
         txt_path = txt_path.replace(txt_path[-4:], "")
-        cmd = f"grep -v 'length=' {path} > {txt_path}.txt" 
+        cmd = f"grep -v 'length=' {path} | grep -v '>' > {txt_path}.txt" 
         os.system(cmd)
     elif file_types == '-fasta':
         txt_path = txt_path.replace(txt_path[-6:], "")
-        cmd = f"grep -v 'length=' {path} > {txt_path}.txt" 
+        cmd = f"grep -v 'length=' {path} | grep -v '>' > {txt_path}.txt" 
         os.system(cmd)
     return txt_path
 
