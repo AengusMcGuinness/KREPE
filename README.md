@@ -1,5 +1,7 @@
-* INSERT NAME HERE:
-** DESCRIPTION:
+# INSERT NAME HERE:
+
+
+## DESCRIPTION:
  The goal of the project is to create a streamlined, easy to use
  package and command line tool that allows users to count k-mers
  (nucleotide sequences of length k) and easily generates the
@@ -12,7 +14,7 @@
  The package is protected by copyright under the GNU General Public
  License
 
-** INSTALLATION:
+## INSTALLATION:
  Use the package manager [pip]
  (https://pip.pypa.io/en/stable/) to install NAME .
 
@@ -20,15 +22,15 @@
  pip install NAME
  ```
 
-** USAGE:
+## USAGE:
 
  The inputs that are allowed are .fasta, .fastq, and .fna. 
 
-** ROADMAP:
+## ROADMAP:
  This package is completely open-sourced and is being updated by
  authors Erika Pedersen and Aengus McGuinness as needs arise
 
-** CONTRIBUTING:
+## CONTRIBUTING:
  Contributions will be accepted, in the instance that the contributor
  is willing to conform with the following:
 
