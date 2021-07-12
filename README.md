@@ -6,6 +6,7 @@
  package and command line tool that allows users to count k-mers
  (nucleotide sequences of length k) and easily generates the
  following:
+
  - A list of the occurring k-mers in the given file that occur more
    than once
  - A histogram that shows the frequency of said k-mer occurrence
