@@ -12,59 +12,56 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 '''
-
+import itertools
 import numpy as np
+from pylab import *
 import os
 import random
 import math
 import sys
 import matplotlib.pyplot as plt
 from sourmash import fig, MinHash, SourmashSignature, save_signatures, load_one_signature
-from itertools import combinations
 
 kmer_length=int(sys.argv[1])
 file_type = str(sys.argv[-1])
 major_dict = {}
-list_of_files = []
+labels = []
+sketch_list = []
 list_of_basenames = []
 file_lengths = []
-jaccards = []
-sketch_list = []
 
 def main():
     for k in sys.argv[2:-1]:
+        labels.append(k)
         major_dict.update({k : {}})
         formatted_file=file_cleaning(k)
-        #print(formatted_file)
         character_count = len(formatted_file) - kmer_length
         file_lengths.append(character_count)
-        #print(character_count)
         kmer_counting(character_count, formatted_file, k)
     byte_size = max(file_lengths)
     for k in sys.argv[2:-1]:
-        sketch_list = implement_kmers(k, byte_size)
-        print(sketch_list)
-        jaccards_for_k = jaccardin_it_up(sketch_list)
-        print(jaccards_for_k)        
+        sketch_list = implement_kmers(byte_size, k)
+    jaccard_matrix = []
+    jaccard_indexes = []
+    for j in sketch_list:
+        jaccard_indexes = []
+        for l in sketch_list:
+            jaccard_indexes.append(j.jaccard(l))
+        print(jaccard_indexes)
+        jaccard_matrix.append(jaccard_indexes)
+    #print(len(jaccard_matrix))
+    #print(jaccard_matrix[1])
+    matrix = np.matrix(jaccard_matrix)
+    f, reordered_labels, reordered_matrix=fig.plot_composite_matrix(matrix, labels)
 
-def jaccardin_it_up(sketch_list):
-    jaccards_for_k = []
-    for a, b in combinations(sketch_list, 2):
-        jaccard_index = a.jaccard(b)
-        jaccards_for_k.append(jaccard_index)
-    else:
-        StopIteration
-    jaccards.append(jaccards_for_k)
-    return jaccards
 
-def implement_kmers(k, byte_size):
-    file_sketch = MinHash(n = byte_size, ksize = kmer_length)
-    sketch_list.append(file_sketch)
+    #np.array(list(it.combinations_with_replacements([], 2)))
+def implement_kmers(byte_size, k):
+    file_sketch = MinHash(byte_size, kmer_length)
     keys = major_dict[k].keys()
     for i in list(keys):
-        incrementor = 0
-        sketch_list[incrementor].add_kmer(i)
-        incrementor += 1
+        file_sketch.add_kmer(i)
+    sketch_list.append(file_sketch)
     return sketch_list
         
 def kmer_counting(character_count, formatted_file, k):
