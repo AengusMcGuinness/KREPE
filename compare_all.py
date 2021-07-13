@@ -24,7 +24,8 @@ import psutil
 
 
 kmer_length=int(sys.argv[1])
-file_type = str(sys.argv[-1])
+meta_data=str(sys.argv[-1])
+file_type = str(sys.argv[-2])
 major_dict = {}
 labels = []
 sketch_list = []
@@ -33,32 +34,56 @@ file_lengths = []
 
 def main():
     os.system('date --iso=seconds')
-    for k in sys.argv[2:-1]:
+    for k in sys.argv[2:-2]:
         labels.append(k)
+        basename_creation(k)
         major_dict.update({k : {}})
         formatted_file=file_cleaning(k)
         character_count = len(formatted_file) - kmer_length
         file_lengths.append(character_count)
         kmer_counting(character_count, formatted_file, k)
-        system_stats()
+        #system_stats()
     byte_size = max(file_lengths)
-    for k in sys.argv[2:-1]:
+    for k in sys.argv[2:-2]:
         sketch_list = implement_kmers(byte_size, k)
+    if meta_data == '-base':
+        labeltext=labels
+        dendrogram(labeltext)
+    else:
+        labeltext = meta_data_aquisiton()
+        dendrogram(labeltext)
+        
+def dendrogram(labeltext):
     jaccard_matrix = []
     jaccard_indexes = []
     for j in sketch_list:
         jaccard_indexes = []
         for l in sketch_list:
             jaccard_indexes.append(j.jaccard(l))
-        #print(jaccard_indexes)
         jaccard_matrix.append(jaccard_indexes)
-    #print(len(jaccard_matrix))
-    #print(jaccard_matrix[1])
     matrix = np.matrix(jaccard_matrix)
-    fig.plot_composite_matrix(matrix, labels)
+    fig.plot_composite_matrix(matrix, labeltext)
     os.system('date --iso=seconds')
     plt.show()
-    
+
+def meta_data_aquisiton():
+    with open(meta_data, 'r') as f:
+        meta_data_content = f.readlines()
+        labeltext = []
+        for h in range(len(list_of_basenames)):
+            entry = meta_data_content[h].replace("\n", "")
+            #labeltext.append(list_of_basenames[h]+entry)
+            labeltext.append(entry)
+        return labeltext
+
+def basename_creation(file_with_extension):
+    if file_type == '-fasta' or '-fastq':
+        basename = str(file_with_extension[:-6])
+    if file_type == '-fna':
+        basename = str(file_with_extension[:-4])
+    list_of_basenames.append(basename)
+    return basename
+        
 def implement_kmers(byte_size, k):
     file_sketch = MinHash(byte_size, kmer_length)
     keys = major_dict[k].keys()
@@ -157,8 +182,6 @@ def plot_composite_matrix(D, labeltext, show_labels=True, show_indices=True,
     return fig, reordered_labels, D
 
 def system_stats():
-    #!/usr/bin/env python
-    # gives a single float value
     print("Cpu Usage: ", psutil.cpu_percent())
     # gives an object with many fields
     print("Memory Usage: ", psutil.virtual_memory())
@@ -172,11 +195,3 @@ def system_stats():
 main()
 
         #os.system('date --iso=seconds')
-
-# def basename_creation(file_with_extension):
-#     if file_type == '-fasta' or '-fastq':
-#         basename = str(file_with_extension[:-6])
-#     if file_type == '-fna':
-#         basename = str(file_with_extension[:-4])
-#     list_of_basenames.append(basename)
-#     return basename
