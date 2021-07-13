@@ -12,15 +12,16 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 '''
-import itertools
 import numpy as np
 from pylab import *
 import os
-import random
 import math
 import sys
+import scipy.cluster.hierarchy as sch
 import matplotlib.pyplot as plt
-from sourmash import fig, MinHash, SourmashSignature, save_signatures, load_one_signature
+from sourmash import fig, MinHash, SourmashSignature
+import psutil
+
 
 kmer_length=int(sys.argv[1])
 file_type = str(sys.argv[-1])
@@ -31,6 +32,7 @@ list_of_basenames = []
 file_lengths = []
 
 def main():
+    os.system('date --iso=seconds')
     for k in sys.argv[2:-1]:
         labels.append(k)
         major_dict.update({k : {}})
@@ -38,6 +40,7 @@ def main():
         character_count = len(formatted_file) - kmer_length
         file_lengths.append(character_count)
         kmer_counting(character_count, formatted_file, k)
+        system_stats()
     byte_size = max(file_lengths)
     for k in sys.argv[2:-1]:
         sketch_list = implement_kmers(byte_size, k)
@@ -47,15 +50,15 @@ def main():
         jaccard_indexes = []
         for l in sketch_list:
             jaccard_indexes.append(j.jaccard(l))
-        print(jaccard_indexes)
+        #print(jaccard_indexes)
         jaccard_matrix.append(jaccard_indexes)
     #print(len(jaccard_matrix))
     #print(jaccard_matrix[1])
     matrix = np.matrix(jaccard_matrix)
-    f, reordered_labels, reordered_matrix=fig.plot_composite_matrix(matrix, labels)
-
-
-    #np.array(list(it.combinations_with_replacements([], 2)))
+    fig.plot_composite_matrix(matrix, labels)
+    os.system('date --iso=seconds')
+    plt.show()
+    
 def implement_kmers(byte_size, k):
     file_sketch = MinHash(byte_size, kmer_length)
     keys = major_dict[k].keys()
@@ -65,22 +68,12 @@ def implement_kmers(byte_size, k):
     return sketch_list
         
 def kmer_counting(character_count, formatted_file, k):
-    #os.system('date --iso=seconds')
     for l in range(character_count):
         kmers= formatted_file[l:(l + kmer_length)]
         if not kmers in major_dict[k].keys():
             major_dict[k].update({kmers : 1})
         else:
              major_dict[k][kmers] += 1
-        #os.system('date --iso=seconds')
-
-def basename_creation(file_with_extension):
-    if file_type == '-fasta' or '-fastq':
-        basename = str(file_with_extension[:-6])
-    if file_type == '-fna':
-        basename = str(file_with_extension[:-4])
-    list_of_basenames.append(basename)
-    return basename
 
 def file_cleaning(unclean_file):
     formatted_file = ""
@@ -104,62 +97,86 @@ def file_cleaning(unclean_file):
                      formatted_file=formatted_file  + unformatted_file[dna_lines]
     formatted_file = formatted_file.replace("\n", "")
     return formatted_file
-    
+
+def plot_composite_matrix(D, labeltext, show_labels=True, show_indices=True,
+                          vmax=1.0, vmin=0.0, force=False):
+    """Build a composite plot showing dendrogram + distance matrix/heatmap.
+    Returns a matplotlib figure."""
+    if D.max() > 1.0 or D.min() < 0.0:
+        error('This matrix doesn\'t look like a distance matrix - min value {}, max value {}', D.min(), D.max())
+        if not force:
+            raise ValueError("not a distance matrix")
+        else:
+            notify('force is set; scaling to [0, 1]')
+            D -= D.min()
+            D /= D.max()
+
+    if show_labels:
+        show_indices = True
+
+    fig = pylab.figure(figsize=(11, 8))
+    ax1 = fig.add_axes([0.09, 0.1, 0.2, 0.6])
+
+    # plot dendrogram
+    Y = sch.linkage(D, method='single')  # centroid
+
+    dendrolabels = labeltext
+    if not show_labels:
+        dendrolabels = [str(i) for i in range(len(labeltext))]
+
+    Z1 = sch.dendrogram(Y, orientation='left', labels=dendrolabels,
+                        no_labels=not show_indices, get_leaves=True)
+    ax1.set_xticks([])
+
+    xstart = 0.45
+    width = 0.45
+    if not show_labels:
+        xstart = 0.315
+    scale_xstart = xstart + width + 0.01
+
+    # re-order labels along rows, top to bottom
+    idx1 = Z1['leaves']
+    reordered_labels = [ labeltext[i] for i in reversed(idx1) ]
+
+    # reorder D by the clustering in the dendrogram
+    D = D[idx1, :]
+    D = D[:, idx1]
+
+    # show matrix
+    axmatrix = fig.add_axes([xstart, 0.1, width, 0.6])
+
+    im = axmatrix.matshow(D, aspect='auto', origin='lower',
+                          cmap=pylab.cm.YlGnBu, vmin=vmin, vmax=vmax)
+    axmatrix.set_xticks([])
+    axmatrix.set_yticks([])
+
+    # Plot colorbar.
+    axcolor = fig.add_axes([scale_xstart, 0.1, 0.02, 0.6])
+    pylab.colorbar(im, cax=axcolor)
+
+    return fig, reordered_labels, D
+
+def system_stats():
+    #!/usr/bin/env python
+    # gives a single float value
+    print("Cpu Usage: ", psutil.cpu_percent())
+    # gives an object with many fields
+    print("Memory Usage: ", psutil.virtual_memory())
+    # you can have the percentage of used RAM
+    print("Memory Percentage: ", psutil.virtual_memory().percent)
+    # you can calculate percentage of available memory
+    print("Available Memory:", psutil.virtual_memory().available * 100 / psutil.virtual_memory().total)
+
+
+
 main()
 
+        #os.system('date --iso=seconds')
 
-# def holy_list(unclean_file):
-#     holy_list = []
-#     os.system('date --iso=seconds')
-#     formatted_file = ""
-#     if file_type == '-fastq':
-#         with open(unclean_file, 'r') as file:
-#             unformatted_file = file.readlines()
-#             for i in range(len(unformatted_file)):
-#                 holy_number = (4*i + 1)
-#                 if holy_number => len(unformatted_file):
-#                     StopIteration
-#                 else:
-#                     holy_list.append(holy_number)
-#         formatted_file=formatted_file+unformatted_file[for h in holy_list: h]                
-# def file_cleaning(unclean_file):
-#     os.system('date --iso=seconds')
-#     formatted_file = ""
-#     if file_type == '-fastq':
-#         with open(unclean_file, 'r') as file:
-#             unformatted_file = file.readlines()
-#             for i in range(len(unformatted_file)):
-#                 for j in range(len(unformatted_file)):
-#                     if j == (1 + 4*i):
-#                         formatted_file=unformatted_file[j] + formatted_file
-#                     else:
-#                         pass
-#             formatted_file.replace("\n", "")
-#             return formatted_file
-#     else:
-#         with open(unclean_file, 'r') as file:
-#             unformatted_file = file.readlines()
-#             for i in range(len(unformatted_file)):
-#                 for j in range(len(unformatted_file)):
-#                     if j == (i*2 + 1):
-#                         formatted_file=unformatted_file[j] + formatted_file
-#                     else:
-#                         pass
-#             formatted_file.replace("\n", "")
-#             os.system('date --iso=seconds')
-#             return formatted_file
-#
-# def if_removing_less_than_one():
-#     for m in range(len(major_dict)):
-#         if major_dict[k].values() < 2:
-#             major_dict[k].pop()
-# def jaccardin_it_up(sketches):
-#     sketch_values=list(sketches.values())
-#     incrementor = 0
-#     for i in sketch_values:
-#         incrementor += 1
-#         if incrementor + 1 > len(sketch_values):
-#             StopIteration
-#         else:
-#             jaccard = i.jaccard(sketch_values[incrementor + 1])
-#             jaccards.append(jaccard)
+# def basename_creation(file_with_extension):
+#     if file_type == '-fasta' or '-fastq':
+#         basename = str(file_with_extension[:-6])
+#     if file_type == '-fna':
+#         basename = str(file_with_extension[:-4])
+#     list_of_basenames.append(basename)
+#     return basename
