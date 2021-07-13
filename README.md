@@ -1,11 +1,29 @@
 # INSERT NAME HERE:
 
+## BACKGROUND INFORMATION: 
+In bioinformatics, it's important to be able to use strands of DNA to 
+compare organisms, understand and assemble genomes, and get a better 
+picture of how everything works together in an organism. A common tool 
+is the k-mer. When a biologist is working on figuring out a genome, or 
+comparing a cat and a dog, they start with the k-mers. The way they work 
+is similar to a paper shredder; you put in a paper (or multiple reads of 
+the same sequence), and shred it into bits. Then, you take all the paper 
+bits and piece them back together in the same way as before, by finding 
+similarities in each of the pieces. This is useful to biologists because
+sometimes there are errors when the machine reads a sequence, so with 
+multiple copies it's simple to find errors and toss them out early so they
+don't effect the overall 'picture'. These k-mers are strung together to make
+stringy looking graphs called 'De Bruijn Graphs', that are used to find a 
+pathway through a genome (i.e., finding the most effective route through a 
+city when you want to get to one side from the other, and you need to make
+certain stops along the way.)
 
 ## DESCRIPTION:
  The goal of the project is to create a streamlined, easy to use
  package and command line tool that allows users to count k-mers
  (nucleotide sequences of length k) and easily generates the
  following:
+
  - A list of the occurring k-mers in the given file that occur more
    than once
  - A histogram that shows the frequency of said k-mer occurrence
