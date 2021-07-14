@@ -1,6 +1,6 @@
 # KREPE
 
-##ABOUT:
+## ABOUT:
 Co-Authors Erika Pedersen and Aengus McGuinness created KREPE at a fellowship
 with the Institute for Computing in Research.
 
