@@ -21,6 +21,18 @@ a De Bruijn graph is comparable to cobbling together different bus or train
 routes that start at the place where the last one ends, and finding a way
 to your destination.
 
+Another kind of graph that is useful is a bar graph. Bar graphs show how
+many times a specific k-mer appears. They can be used to determine the
+quality of reads and determine what type of organism is being seen.
+
+Dendrograms can be used to compare any number of organisms to each other
+and see how genetically far apart they are. They have a vertical line from
+the bottom left to the top right that demonstrates samples intersecting with
+themselves, and the rest of the squares show intersections between different
+samples. Venn diagrams are another way to demonstrate the overlap of organisms.
+
+Our program calculates Jaccard similarity (which is basically the amount that
+things have overlapping, 1.00 being completely the same and 0.00 being completely dissimilar) and uses it for the dendrograms and the venn diagrams. 
 
 
 ## DESCRIPTION:
