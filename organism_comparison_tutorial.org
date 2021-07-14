@@ -1,0 +1,35 @@
+#-*- mode: org -*-
+#+STARTUP: showall
+
+* Organism_comparison.py: A Comprehensive Guide
+
+** Visualizations
+   Organism_comparison.py allows the user to count kmers of a specified kmer length and create a dictionary holding that kmer and its abundance.
+   Organism_comparison.py allows the user to compare two DNA samples whether they both be .fna, .fasta, or .fastq.
+   Once you have created the kmer dictionary of both files organism_comparison.py will calculate the jaccard similarity of the files and then 
+   using the jaccard similarity you can then calculate the genetic diveristy[insert citation and equation]. Organism_comparison.py allows
+   you to then create a venn diagram of the intersection of the kmer dictionaries.
+
+** Execution
+   Organism_comparison.py is a one of KREPE's many python command line tools for bioinformaticists. Organism_comparison.py
+   makes use of the powerful sourmash python library to make basic kmer analasyis easier than ever. The basic structure is to
+   Make the program executable using chmod +x organism_comparison.py or alternativley use python3 to run it
+   for example,
+```bash
+$ python3 organism_comparison.py
+```
+** Usage
+   python3 $PATH/organism_comparison KMER_LENGTH FILE_ONE FILE_TWO -FILE_TYPE or
+   ./$PATH/organism_comparison KMER_LENGTH FILE_ONE FILE_TWO -FILE_TYPE or
+   example usage: python3 organism_comparison.py 21 tuberculosis.fna meningitis.fna -fna
+
+** In practice
+   The first step in using the organism_comparison.py KREPES tool is to get some data. In this tutorial we will be using the meningitis and tuberculosis genomes
+   from the National Center of Biotechnology Information. An important note is that all input files must be uncompressed, this can easily be done using gunzip.
+   Using the tuberculosis.fna and meningitis.fna files you can run python3 organism_comparison.py 21 tuberculosis.fna meningitis.fna -fna
+   This command will take the two files and seperate all of the meta data out and parse the DNA into 21 long kmers, after that it will use a MinHash
+   which stores all of the in a MinHash by hashing the values and storing those instead. This creates a highly memory efficient algorithm that works with laptops.
+   Once this program finishes (it will take a few minutes) you should be greeted with this venn diagram.
+
+                             [Insert Image]
+
