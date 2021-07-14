@@ -42,7 +42,7 @@ to your destination.
  (https://pip.pypa.io/en/stable/) to install krepe
 
  ```bash
- pip install krepe
+$  pip install krepe
  ```
 OR you can install without pip
 
