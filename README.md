@@ -21,9 +21,9 @@ a De Bruijn graph is comparable to cobbling together different bus or train
 routes that start at the place where the last one ends, and finding a way
 to your destination.
 
-Another kind of graph that is useful is a bar graph. Bar graphs show how
-many times a specific k-mer appears. They can be used to determine the
-quality of reads and determine what type of organism is being seen.
+Another kind of graph that is useful is a bar graph. Bar graphs show the
+appearances of k-mers and can be used to determine the quality of reads
+and determine what type of organism is being seen.
 
 Dendrograms can be used to compare any number of organisms to each other
 and see how genetically far apart they are. They have a vertical line from
