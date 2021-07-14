@@ -1,7 +1,8 @@
 # KREPE
 
 ##ABOUT:
-Co-Authors Erika Pedersen and Aengus 
+Co-Authors Erika Pedersen and Aengus McGuinness created KREPE at a fellowship
+with the Institute for Computing in Research.
 
 ## BACKGROUND INFORMATION:
 In bioinformatics, it's important to be able to use strands of DNA
