@@ -44,6 +44,11 @@ to your destination.
  ```bash
  pip install krepe
  ```
+OR you can install without pip
+
+```bash
+$ git clone https://github.com/RGBwalnut/Kmer-Counting-Analysis
+```
 
 ## USAGE:
 
