@@ -1,18 +1,18 @@
 # INSERT NAME HERE:
 
-## BACKGROUND INFORMATION: In bioinformatics, it's important to be
-able to use strands of DNA to compare organisms, understand and
-assemble genomes, and get a better picture of how everything works
-together in an organism. A common tool is the k-mer. When a biologist
-is working on figuring out a genome, or comparing a cat and a dog,
-they start with the k-mers. The way they work is similar to a paper
-shredder; you put in a paper (or multiple reads of the same sequence),
-and shred it into bits. Then, you take all the paper bits and piece
-them back together in the same way as before, by finding similarities
-in each of the pieces. This is useful to biologists because sometimes
-there are errors when the machine reads a sequence, so with multiple
-copies it's simple to find errors and toss them out early so they
-don't effect the overall 'picture'. These k-mers are strung together
+## BACKGROUND INFORMATION:
+In bioinformatics, it's important to be able to use strands of DNA
+to compare organisms, understand and assemble genomes, and get a better
+picture of how everything works together in an organism. A common tool
+is the k-mer. When a biologist is working on figuring out a genome, or
+comparing a cat and a dog,they start with the k-mers. The way they work
+is similar to a paper shredder; you put in a paper (or multiple reads of
+the same sequence), and shred it into bits. Then, you take all the paper
+bits and piece them back together in the same way as before, by finding
+similarities in each of the pieces. This is useful to biologists because
+sometimes there are errors when the machine reads a sequence, so with
+multiple copies it's simple to find errors and toss them out early so they
+don't affect the overall 'picture'. These k-mers are strung together
 to make stringy looking graphs called 'De Bruijn Graphs', that are
 used to find a pathway through a genome- this process of finding a
 pathway is called collapsing. 'Collapsing' a De Bruijn is comparable

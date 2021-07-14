@@ -1,5 +1,5 @@
 '''
-   This program counts the kmers in 2 files returns a kmer sketch as well as genetic distance betweent the input files.
+
    Copyright (C) 2021 Aengus McGuinness and Erika Pedersen
 
    This program is free software: you can redistribute it and/or modify
