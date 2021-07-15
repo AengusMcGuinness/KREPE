@@ -1,12 +1,23 @@
 * Compare-all.py: A Comprehensive Guide
 ** Visualizations
-   Compare_all.py is a python command line tool within the krepe package that allows bioniformaticists to count the kmers with any number of .fasta, .fna, or .fastq file.
-   Compare_all.py lets the user input any number of files which are then parsed into kmers of length k and then visualised using a dendr
+   Compare_all.py is a python command line tool within the krepe package
+   that allows bioniformaticists to count the kmers with any number of 
+   .fasta, .fna, or .fastq file, and also lets the user input any number
+   of files which are then parsed into kmers of length k and then visualise
+   d using a dendrogram. 
 ** Execution
-   After making the script executable using chmod +x you can run the program with
-   ./$PATH/compare_all.py KMER_LENGTH FILE FILE2 FILE3... FILE_TYPE META_DATA_OR_BASE Or using 
-   python3 /PATH/compare_all.py KMER_LENGTH FILE FILE2 FILE3... FILE_TYPE META_DATA_OR_BASE
+   After making the script executable using chmod +x you can run the program
+   with:
+   $ ./$PATH/compare_all.py (k-mer length desired) (file 1, 2, etc names with one space between them) (file type) (metadata or base)
+   Or you can use: 
+   $ python3 /PATH/compare_all.py (k-mer length desired) (file 1, 2 etc) (file type) (metadata or base)
 ** Tutorial
-   Using the example data from NCBI download or navigate to the tests folder and retrieve
+   Navigate to the tests folder and retrieve the three testing files. Move
+   them to the same directory as the python script. With your current 
+   directory set to the one with the program and test files, you can use the 
+   command format above to run the files through. Implementing the
+   command should look like this: 
+   $ python3 compare_all.py 15 test1.fastq test2.fastq test3.fastq -fastq 
+   
    The Compare_all.py has one option which is meta_data.txt This file should be formatted so that each line is a label for the dendrogram.
-   [Insert Image]
+  
