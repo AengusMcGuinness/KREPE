@@ -1,0 +1,23 @@
+* Kmer_Counter.py: A Comprehensive Guide 
+** Visualizations
+   Kmer_counter is a python command line tool within the krepe package that allows bioniformaticions
+   to count the kmers with a .fasta, .fna, or .fastq file. Kmer_counter lets the user create bar graphs
+   that represent all of the kmers at length k present in a file along with their abundance. Kmer_counter 
+   also provides a simple uncompressed De Bruijn graph that is ideal for smaller values of k and is a nice
+   visualization of the genome.
+** Execution
+   After making the script executable using chmod +x you can run the program with
+   ./$PATH/Kmer_counter.py KMER_LENGTH FILE BAR_GRAPH DE_BRUIJN_GRAPH
+   Or using python3
+   python3 $PATH/Kmer_counter.py KMER_LENGTH FILE BAR_GRAPH DE_BRUIJN_GRAPH
+** Tutorial
+   Using the example data from NCBI:
+   Navigate to the tests folder and retrieve Kmer_Counter.py and the files labeled '
+   The bar graph has two options: 'plot_distribution' and 'not_plot_distribution'.
+   The De Bruijn graph also has two arguments: 'plot_de_bruijn' and 'not_plot_de_bruijn'.
+   An example usage would be:
+   $  python3 Kmer_counter.py 25 plot_distribution not_plot_de_bruijn 
+   The output should look something like this: 
+
+
+   [Insert Image]
