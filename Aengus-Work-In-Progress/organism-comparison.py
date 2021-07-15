@@ -51,7 +51,7 @@ def venn_diagram():
     
 def genetic_distance_calc(jaccard_index, kmer_length):
     factor1 = -1/kmer_length
-    factor2 = math.log(2 * jaccard_index) / 1 + jaccard_index
+    factor2 = -1*(math.log(2 * jaccard_index) / 1 + jaccard_index)
     genetic_distance = factor1 * factor2
     return genetic_distance
 

@@ -1,3 +1,4 @@
+#! /usr/bin/envpython3
 '''
    This program counts the kmers in 2 files returns a kmer sketch as well as genetic distance betweent the input files.
    Copyright (C) 2021 Aengus McGuinness and Erika Pedersen
@@ -40,15 +41,11 @@ def main():
         major_dict.update({k : {}})
         formatted_file = file_cleaning_two_point_o(k)
         character_count = len(formatted_file) - kmer_length
-        #print(formatted_file)
         file_lengths.append(character_count)
         kmer_counting(character_count, formatted_file, k)
-        #print(major_dict[k])
     byte_size = max(file_lengths)
     for k in sys.argv[2:-2]:
-        #print("\n\n\n\n\n\n", f"sketch_list_creation_{k}")
         sketch_list = implement_kmers(byte_size, k)
-        print(k)
     if meta_data == '-base':
         labeltext=labels
         dendrogram(labeltext)
@@ -75,7 +72,6 @@ def meta_data_aquisiton():
         labeltext = []
         for h in range(len(list_of_basenames)):
             entry = meta_data_content[h].replace("\n", "")
-            #labeltext.append(list_of_basenames[h]+entry)
             labeltext.append(entry)
     return labeltext
 
@@ -91,7 +87,6 @@ def implement_kmers(byte_size, k):
     file_sketch = MinHash(byte_size, kmer_length)
     keys = major_dict[k].keys()
     for i in list(keys):
-        #print(i)
         file_sketch.add_kmer(i)
     sketch_list.append(file_sketch)
     return sketch_list
@@ -103,7 +98,6 @@ def kmer_counting(character_count, formatted_file, k):
             major_dict[k].update({kmers : 1})
         else:
              major_dict[k][kmers] += 1
-
 
 def file_cleaning_two_point_o(unclean_file):
     formatted_file = []
@@ -117,100 +111,7 @@ def file_cleaning_two_point_o(unclean_file):
                 pass
     formatted_file = ''.join(formatted_file)
             #print(formatted_file)
-    return formatted_file
-
-
-def plot_composite_matrix(D, labeltext, show_labels=True, show_indices=True,
-                          vmax=1.0, vmin=0.0, force=False):
-    if D.max() > 1.0 or D.min() < 0.0:
-        error('This matrix doesn\'t look like a distance matrix - min value {}, max value {}', D.min(), D.max())
-        if not force:
-            raise ValueError("not a distance matrix")
-        else:
-            notify('force is set; scaling to [0, 1]')
-            D -= D.min()
-            D /= D.max()
-
-    if show_labels:
-        show_indices = True
-
-    fig = pylab.figure(figsize=(11, 8))
-    ax1 = fig.add_axes([0.09, 0.1, 0.2, 0.6])
-
-    # plot dendrogram
-    Y = sch.linkage(D, method='single')  # centroid
-    y.title("Genome Similarity")
-
-    
-    dendrolabels = labeltext
-    if not show_labels:
-        dendrolabels = [str(i) for i in range(len(labeltext))]
-
-    Z1 = sch.dendrogram(Y, orientation='left', labels=dendrolabels,
-                        no_labels=not show_indices, get_leaves=True)
-    ax1.set_xticks([])
-
-    xstart = 0.45
-    width = 0.45
-    if not show_labels:
-        xstart = 0.315
-    scale_xstart = xstart + width + 0.01
-
-    # re-order labels along rows, top to bottom
-    idx1 = Z1['leaves']
-    reordered_labels = [ labeltext[i] for i in reversed(idx1) ]
-
-    # reorder D by the clustering in the dendrogram
-    D = D[idx1, :]
-    D = D[:, idx1]
-
-    # show matrix
-    axmatrix = fig.add_axes([xstart, 0.1, width, 0.6])
-
-    im = axmatrix.matshow(D, aspect='auto', origin='lower',
-                          cmap=pylab.cm.YlGnBu, vmin=vmin, vmax=vmax)
-    axmatrix.set_xticks([])
-    axmatrix.set_yticks([])
-
-    # Plot colorbar
-    axcolor = fig.add_axes([scale_xstart, 0.1, 0.02, 0.6])
-    pylab.colorbar(im, cax=axcolor)
-    
-    return fig, reordered_labels, D
-
-
-             
-# def file_cleaning_fastq(unclean_file):
-#     file_list = []
-#     with open(unclean_file, 'r') as f:
-#         unformatted_file = f.readlines()
-#         for j in range(len(unformatted_file)):
-#             dna_lines = (j * 4) + 1
-#             if dna_lines > len(unformatted_file):
-#                 break
-#             else:
-#                 new_entry = unformatted_file[dna_lines]
-#                 #print(new_entry)
-#                 file_list.append(new_entry)
-#     formatted_file = str(''.join(file_list)).replace("\n", "")
-#     #print(formatted_file)
-#     return formatted_file
-
-# def file_cleaning_fasta(unclean_file):
-#     file_list = []
-#     with open(unclean_file, 'r') as f:
-#         unformatted_file = f.readlines()
-#         for j in range(len(unformatted_file)):
-#             dna_lines = (j * 2) + 1
-#             print(dna_lines)
-#             if dna_lines > len(unformatted_file):
-#                 break
-#             else:
-#                 new_entry = unformatted_file[dna_lines]
-#                 file_list.append(new_entry)
-#     formatted_file = (''.join(file_list)).replace("\n", "")
-#     return formatted_file
-
+    return formatted_file    
 
 def system_stats():
     print("Cpu Usage: ", psutil.cpu_percent())
@@ -221,4 +122,5 @@ def system_stats():
     # you can calculate percentage of available memory
     print("Available Memory:", psutil.virtual_memory().available * 100 / psutil.virtual_memory().total)
 
-main()
+if __name__ == '__main__':
+    main()
