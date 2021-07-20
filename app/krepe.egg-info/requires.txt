@@ -1,0 +1,6 @@
+matplotlib
+matplotlib_venn
+numpy
+psutil
+sourmash
+toyplot

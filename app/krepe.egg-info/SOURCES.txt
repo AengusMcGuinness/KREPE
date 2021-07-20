@@ -1,0 +1,10 @@
+README.md
+krepe.py
+pyproject.toml
+setup.py
+krepe.egg-info/PKG-INFO
+krepe.egg-info/SOURCES.txt
+krepe.egg-info/dependency_links.txt
+krepe.egg-info/entry_points.txt
+krepe.egg-info/requires.txt
+krepe.egg-info/top_level.txt

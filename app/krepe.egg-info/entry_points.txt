@@ -1,0 +1,5 @@
+[console_scripts]
+compare-all = krepe:compare_all
+genome-visualization = krepe:genome_visualization
+organism-comparison = krepe:organism_comparison
+

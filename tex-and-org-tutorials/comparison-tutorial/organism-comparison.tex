@@ -1,0 +1,61 @@
+% Created 2021-07-16 Fri 09:41
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{aengus}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={aengus},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.3 (Org mode 9.1.9)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+\section{Organism\(_{\text{comparison.py}}\): A Comprehensive Guide}
+\label{sec:orgb7cf731}
+
+\subsection{Explanation:}
+\label{sec:orgbefb4a4}
+Organism\(_{\text{comparison.py}}\) allows the user to count kmers of a specified kmer 
+length and create a dictionary holding that kmer and its abundance. It 
+then allows the user to compare two DNA samples whether they both be .fna,
+.fasta, or .fastq. Once the k-mer dictionary of both files has been created,
+organism\(_{\text{comparison.py}}\) will calculate the jaccard similarity of the files. 
+This can be used to calculate the genetic diversity of the two organisms.
+Organism\(_{\text{comparison.py}}\) allows you to then create a venn diagram of the
+intersection of the kmer dictionaries.
+
+\subsection{Execution:}
+\label{sec:orgea0a059}
+Organism\(_{\text{comparison.py}}\) is a one of KREPE's many python command line tools
+for bioinformaticists. Organism\(_{\text{comparison.py}}\) makes use of the powerful
+sourmash python library to make basic kmer analysis easier than ever.
+
+Make the program executable using chmod +x organism\(_{\text{comparison.py}}\) and run
+it like this: 
+\$ organism\(_{\text{comparison.py}}\) (k-mer length) (file1, file2) (file type)
+or alternatively use python3 to run it: 
+\$ python3 organism\(_{\text{comparison.py}}\) (k-mer length) (file1, file 2) (file type)
+
+\subsection{Tutorial:}
+\label{sec:org95f3345}
+\$ \$PATH/organism\(_{\text{comparison}}\) 21 tuberculosis.fna streptococus.fna -fna
+\$ python3 organism\(_{\text{comparison.py}}\) 21 tuberculosis.fna streptococus.fna -fna
+\end{document}
