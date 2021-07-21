@@ -64,7 +64,7 @@ $  pip install krepe
 OR you can install without pip by using git:
 
 ```bash
-$ git clone https://github.com/RGBwalnut/Kmer-Counting-Analysis
+$ git clone https://github.com/RGBwalnut/KREPE
 ```
 
 ## USAGE:
