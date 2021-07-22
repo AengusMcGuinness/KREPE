@@ -59,7 +59,7 @@ things have overlapping, 1.00 being completely the same and 0.00 being completel
  (https://pip.pypa.io/en/stable/) to install krepe
 
  ```bash
-$  pip install krepe
+$  pip3 install krepe
  ```
 OR you can install without pip by using git:
 
