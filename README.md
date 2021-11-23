@@ -1,7 +1,7 @@
 # KREPE
 
 ## ABSTRACT:
-Efficient genome assembly is a growing need due to the introduction of high volume sequencing such as shotgun and Illumina. Novel ways to quickly assemble genomes and reduce error margins have become an important commodity. K-mers are one stragety, allowing for high error margins to be reduced significantly by parsing the read and matching together sequences. KREPE is a python command-line tool created to better serve the bioinformatics community in creation of meaningful graphs and calculations. By utilising python dictionaries and multiple different graph visualizations, KREPE serves as a one-stop shop for assembling genomes, creating occurrence graphs, assembling genomes with De Bruijn graphs, calculating Jaccard similarity, generating venn diagrams, and making high quality dendrograms. KREPE is an open-source tool for analyzing and creating representative genome visualizations. 
+Efficient genome assembly is a growing need due to the introduction of high volume sequencing such as amplicon and shotgun sequencing. Novel ways to quickly assemble genomes and reduce error margins have become an important commodity. K-mers are one stragety, allowing for high error margins to be reduced significantly by parsing the read and matching together sequences. KREPE is a python command-line tool created to better serve the bioinformatics community in creation of meaningful graphs and calculations. By utilising python dictionaries and multiple different graph visualizations, KREPE serves as a one-stop shop for assembling genomes, creating occurrence graphs, assembling genomes with De Bruijn graphs, calculating Jaccard similarity, generating venn diagrams, and making high quality dendrograms. KREPE is an open-source tool for analyzing and creating representative genome visualizations. 
 
 ## ABOUT:
 Co-Authors Erika Pedersen and Aengus McGuinness created KREPE at a fellowship
@@ -61,7 +61,7 @@ things have overlapping, 1.00 being completely the same and 0.00 being completel
  (https://pip.pypa.io/en/stable/) to install krepe
 
  ```bash
-$  pip3 install krepe
+$  pip install krepe
  ```
 OR you can install without pip by using git:
 
