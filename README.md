@@ -1,7 +1,7 @@
 # KREPE
 
 ## ABSTRACT:
-Efficient genome assembly is a growing need due to the introduction of high volume sequencing such as amplicon and shotgun sequencing. Novel ways to quickly assemble genomes and reduce error margins have become an important commodity. K-mers are one stragety, allowing for high error margins to be reduced significantly by parsing the read and matching together sequences. KREPE is a python command-line tool created to better serve the bioinformatics community in creation of meaningful graphs and calculations. By utilising python dictionaries and multiple different graph visualizations, KREPE serves as a one-stop shop for assembling genomes, creating occurrence graphs, assembling genomes with De Bruijn graphs, calculating Jaccard similarity, generating venn diagrams, and making high quality dendrograms. KREPE is an open-source tool for analyzing and creating representative genome visualizations. 
+Efficient genome assembly is a growing need due to the introduction of high volume sequencing such as amplicon and shotgun sequencing. Novel ways to quickly assemble genomes and reduce error margins have become an important commodity. K-mers are one stragety, allowing for high error margins to be reduced significantly by parsing the read and matching together sequences. KREPE is a python command-line tool created to better serve the bioinformatics community in creation of meaningful graphs and calculations. By utilising python dictionaries and multiple different graph visualizations, KREPE serves as a one-stop shop for assembling genomes, creating occurrence graphs, assembling genomes with De Bruijn graphs, calculating Jaccard similarity, generating venn diagrams, and making high quality dendrograms. KREPE is an open-source tool for analyzing and creating representative genome visualizations.
 
 ## ABOUT:
 Co-Authors Erika Pedersen and Aengus McGuinness created KREPE at a fellowship
@@ -11,7 +11,7 @@ with the Institute for Computing in Research.
 In bioinformatics, it's important to be able to use strands of DNA
 to compare organisms, understand and assemble genomes, and get a better
 picture of how everything works together in an organism. A common tool
-is the k-mer(nucleotide sequences of length k). When a biologist is working
+is the k-mer (nucleotide sequences of length k). When a biologist is working
 on figuring out a genome, or comparing a cat and a dog, they start with the
 k-mers. The way they work is similar to a paper shredder; you put in a paper
 (or multiple reads of the same sequence), and shred it into bits. Then, you
