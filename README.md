@@ -1,5 +1,8 @@
 # KREPE
 
+## ABSTRACT:
+Efficient genome assembly is a growing need due to the introduction of high volume sequencing such as shotgun and Illumina. Novel ways to quickly assemble genomes and reduce error margins have become an important commodity. K-mers are one stragety, allowing for high error margins to be reduced significantly by parsing the read and matching together sequences. KREPE is a python command-line tool created to better serve the bioinformatics community in creation of meaningful graphs and calculations. By utilising python dictionaries and multiple different graph visualizations, KREPE serves as a one-stop shop for assembling genomes, creating occurrence graphs, assembling genomes with De Bruijn graphs, calculating Jaccard similarity, generating venn diagrams, and making high quality dendrograms. KREPE is an open-source tool for analyzing and creating representative genome visualizations. 
+
 ## ABOUT:
 Co-Authors Erika Pedersen and Aengus McGuinness created KREPE at a fellowship
 with the Institute for Computing in Research.
@@ -37,7 +40,6 @@ samples. Venn diagrams are another way to demonstrate the overlap of organisms.
 
 Our program calculates Jaccard similarity (which is basically the amount that
 things have overlapping, 1.00 being completely the same and 0.00 being completely dissimilar) and uses it for the dendrograms and the venn diagrams. 
-
 
 ## DESCRIPTION:
  The goal of the project is to create a streamlined, easy to use
